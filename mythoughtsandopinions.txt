@@ -1,0 +1,41 @@
+Vertex -> Eckpunkt / Punkt
+Vertecis -> Eckpunkte / Punkte
+VBO = Vertex Buffer Object
+VAO = Vertex Array Object
+Vertex Shader = Verarbeitet die Vertex Daten. (Ist der Anfang der Grafik-Pipeline)
+Fragment Shader = Verabeitet die Farben die bestimmter Pixel haben soll.
+
+
+## Das vorbereiten von Vertecis zum Zeichnen eines Dreiecks ##
+    Vertecis Daten erstellen (Beispiel für ein Vertex: float[] { -0.5f, 0.5f, 1.0f, x, y, z, xn, yn, zn})
+    Ein VAO erstellen.
+    Das VAO an den OpenGL-Kontext binden.
+    Ein VBO erstellen.
+    Das VBO an den OpenGL-Kontext binden.
+    Die Vertex Daten dem VBO übergeben.
+    Ein Vertex Shader Objekt erstellen.
+    Dem Vertex Shader Object den Shader Code übergeben. (Geht auch mit Dateien)
+    Den Vertex Shader compilieren.
+    Ein Fragment Shader Object erstellen.
+    Dem Fragment Shader Object den Shader Code übergeben. (Geht auch mit Dateien)
+    Den Fragment Shader compilieren.
+    Ein Shader Programm Object erstellen.
+    Die Shader Objekte mit dem Shader Programm verlinken.
+    Das Shader Programm aktivieren.
+    Die Shader Objekte optional löschen.
+    Dem VBO die Positionen, an denen die Vertex Daten in dem Datenbereich liegen, angeben. 
+    Das VBO entbinden.
+    Das VAO entbinden.
+
+## Das Zeichnen eines Dreiecks ##
+    Das VAO, dass bei dem konfigurieren der Dreiecks-Daten gebunden wurde, an den OpenGL-Kontext binden.
+    Die Vertecis als OpenGL-Dreick (GL_TRINGLES) zeichnen.
+    Das VAO entbinden.
+
+
+## VAO - Vertex Array Object
+Enthält die Referenz auf ein VBO, was wärend es selbst gebunden war, erstellt wurde.
+
+
+## VBO - Vertex Buffer Object
+Enthält die Vertexdaten und weiß wie diese struktoriert sind.

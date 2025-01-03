@@ -11,3 +11,5 @@ Lernii Lernii, OpenGLi..
 
 # Important!
 Danke MIR, dass ich glad und glfw mit drin hab :prayer:
+
+Master: Stand des PDFs, vor den 1. Aufgaben (Chapter 5)
