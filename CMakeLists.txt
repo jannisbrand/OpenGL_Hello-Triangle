@@ -6,7 +6,7 @@ set(CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS ON)
 project(Hello LANGUAGES CXX C)  # Sets the name of the project and specifies wich languages are used 
 
-add_executable(main exercises/hello-triangle_color-in-vertice-data.cpp libraries/glad-4.6/src/glad.c) # Add entry point
+add_executable(main exercises/shader-class-test.cpp libraries/glad-4.6/src/glad.c) # Add entry point
 add_subdirectory(libraries/glfw-3.4)
 
 target_sources(main PUBLIC ${sources})
@@ -16,3 +16,4 @@ find_package(OpenGL REQUIRED)
 target_link_libraries(main OpenGL::GL)
 
 include_directories(SYSTEM libraries/glad-4.6/include)
+include_directories(SYSTEM shaders*)
