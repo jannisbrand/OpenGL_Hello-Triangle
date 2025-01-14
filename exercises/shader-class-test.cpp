@@ -69,7 +69,6 @@ int main()
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
-    // Shader myShader("C:/Users/wm00964/Documents/projekte_cpp/OGL-HelloTriangle/shaders/vertex.vert", "C:/Users/wm00964/Documents/projekte_cpp/OGL-HelloTriangle/shaders/fragment.frag");
     Shader myShader("../shaders/vertex.vert", "../shaders/fragment.frag");
     myShader.use();
 
