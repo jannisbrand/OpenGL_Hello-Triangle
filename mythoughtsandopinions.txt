@@ -60,11 +60,14 @@ Die Textur Datei laden.
 Eine Textur generieren und binden.
 Dann mit der "glTexImageXX" die Textur mit den passenden Parametern definieren.
 Optional Mipmaps generieren.
+Optional die generierte Textur als aktive Textur binden, wenn mehrere Texturen vom gleichen Objekt benutzt werden sollen
 [...]
 Den Vertex Shader mit einer input und einer output Variable, für die Textur Coordinaten ausstatten. (vecX)
 Den Fragment Shader mit einer input Variable ausstatten, die der output Variable des Vertex Shaders gleicht.
 Dem Fragment Shader eine "uniform samplerXX" Variable geben.
+Optional 2 oder mehrere "uniform samplerXX" Variablen hinzufügen, falls mehrere Texturen pro Objekt verwendet werden sollen. (Z.B. zum mixen der beiden)
 Der output Variable des Fragment Shaders "FragColor", über die Shader Funktion "texture()", die "samplerXX" Variable und die input Variable für die Textur Coordinaten übergeben.
+
 
 ## Textur rendern ##
 Die Textur binden.
