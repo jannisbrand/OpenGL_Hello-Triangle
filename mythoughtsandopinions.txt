@@ -8,11 +8,15 @@ Fragment Shader = Verabeitet die Farben die bestimmter Pixel haben soll.
 
 ## Das vorbereiten von Vertecis zum Zeichnen eines Dreiecks ##
     Vertecis Daten erstellen (Beispiel für ein Vertex: float[] { -0.5f, 0.5f, 1.0f, x, y, z, xn, yn, zn})
+    Indece Daten erstellen  (Wenn z.B. Zwei Dreiecke zu einem Rechteck zusammen gefügt werden sollen. Die Vertecis, die zu zu den einzelnen Dreiecken gehören, angeben. (Auch die, die übereinander liegen!))
     Ein VAO erstellen.
     Das VAO an den OpenGL-Kontext binden.
     Ein VBO erstellen.
     Das VBO an den OpenGL-Kontext binden.
     Die Vertex Daten dem VBO übergeben.
+    Ein EBO optional erstellen.
+    Das EBO an den Kontext binden.
+    Die Indece Daten übergeben.
     Ein Vertex Shader Objekt erstellen.
     Dem Vertex Shader Object den Shader Code übergeben. (Geht auch mit Dateien)
     Den Vertex Shader compilieren.
@@ -25,10 +29,13 @@ Fragment Shader = Verabeitet die Farben die bestimmter Pixel haben soll.
     Die Shader Objekte optional löschen.
     Dem VBO die Positionen, an denen die Vertex Daten in dem Datenbereich liegen, angeben. 
     Das VBO entbinden.
+    Das EBO optional entbinden.
     Das VAO entbinden.
 
 ## Das Zeichnen eines Dreiecks ##
     Das VAO, dass bei dem konfigurieren der Dreiecks-Daten gebunden wurde, an den OpenGL-Kontext binden.
+    Optional das EBO binden, wenn dieser verwendet wurde.
+    Optional mit der zu dem EBO gehörenden Funktion, das Object zeichnen. 
     Die Vertecis als OpenGL-Dreick (GL_TRINGLES) zeichnen.
     Das VAO entbinden.
 
@@ -36,6 +43,31 @@ Fragment Shader = Verabeitet die Farben die bestimmter Pixel haben soll.
 ## VAO - Vertex Array Object
 Enthält die Referenz auf ein VBO, was wärend es selbst gebunden war, erstellt wurde.
 
+## EBO - Element Buffer Object
+Enthält die Indeces der Vertex Daten, die die einzelnen Dreiecke zugehörig sind.
+(Beispiel: Anstatt 6 Vertecis für ein Rechteck zu definieren, brauch man nur 4 und Indeces, die auf die zwei nebeneinander liegendenden Dreiecke zeigen)
 
 ## VBO - Vertex Buffer Object
 Enthält die Vertexdaten und weiß wie diese struktoriert sind.
+
+
+## Textur vorbereiten ##
+Entscheiden ob die Textur 1D, 2D, oder 3D ist.
+Die Texturen Parameter für das overflow Vehalten setzen. (Textur Wrap)
+Die Texturen Parameter für das Filter Verhalten beim Minifying und Magnifying setzen.
+Die "stbi_image.h" installieren und einbinden.
+Die Textur Datei laden.
+Eine Textur generieren und binden.
+Dann mit der "glTexImageXX" die Textur mit den passenden Parametern definieren.
+Optional Mipmaps generieren.
+Optional die generierte Textur als aktive Textur binden, wenn mehrere Texturen vom gleichen Objekt benutzt werden sollen
+[...]
+Den Vertex Shader mit einer input und einer output Variable, für die Textur Coordinaten ausstatten. (vecX)
+Den Fragment Shader mit einer input Variable ausstatten, die der output Variable des Vertex Shaders gleicht.
+Dem Fragment Shader eine "uniform samplerXX" Variable geben.
+Optional 2 oder mehrere "uniform samplerXX" Variablen hinzufügen, falls mehrere Texturen pro Objekt verwendet werden sollen. (Z.B. zum mixen der beiden)
+Der output Variable des Fragment Shaders "FragColor", über die Shader Funktion "texture()", die "samplerXX" Variable und die input Variable für die Textur Coordinaten übergeben.
+
+
+## Textur rendern ##
+Die Textur binden.
