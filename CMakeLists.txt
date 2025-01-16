@@ -6,8 +6,9 @@ set(CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS ON)
 project(Hello LANGUAGES CXX C)  # Sets the name of the project and specifies wich languages are used 
 
-add_executable(main exercises/texture_exercise-4.cpp libraries/glad-4.6/src/glad.c) # Add entry point
+add_executable(main exercises/transformation-learning_exercise-2.cpp libraries/glad-4.6/src/glad.c) # Add entry point
 add_subdirectory(libraries/glfw-3.4)
+add_subdirectory(libraries/glm)
 
 target_sources(main PUBLIC ${sources})
 target_link_libraries(main glfw)
