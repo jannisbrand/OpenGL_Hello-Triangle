@@ -1,0 +1,53 @@
+pitch	= 45°
+yaw	=  0°
+roll	=  0°
+
+"soh" ~ sin() -> opposite side -> divided by hypothenuse
+"cah" ~ cos() -> adjacant side -> divided by hypothenuse
+"toa" ~ tan() -> opposite side -> divided by adjacant
+
+(h -> handled as set to 1)
+
+!! Its a representation of where and what to calculate if """pitch / yaw / roll""" is represented in a coordinate system. !Lenght and positions are irrelevant her! !!
+!! Learn it by heart !! But also learn this to understand how the camera gets directed on the low-level :) !!
+______________________________________________________________________
+
+Z
+| 	   .
+| 	 .
+|      . |
+| h=1.	 | opposide -> sin(yaw)
+|  .	 |
+|.(yaw)__|_______ X
+Y   adjacant -> cos(yaw)
+
+(adjacant side is parallel to the x-axis. -> direction.x = cos(yaw))
+(opposide side is parallel to the z-axis. -> direction.z = sin(yaw))
+_______________________________________________________________________
+
+Y
+| 	   .
+| 	 .
+|      . |
+| h=1.	 | opposide -> sin(pitch)
+|  .	 |
+|.(pitch)|_______ X
+Z   adjacant -> cos(pitch)
+
+(adjacant is parallel to the x-axis. -> cos(pitch))
+(opposide is parallel to the y-axis. -> sin(pitch))
+
+!! Because we already have the x & z, only y get calculated (sin(pitch)) !!
+THEN THE ADJACANT SIDE """cos(pitch)""" IS MULTIPLIED "ON-TO" BOTH OF THE CALCULATIONS OF THE YAW;
+"direction.x = cos(yaw) """* cos(pitch)"""
+"direction.z = sin(yaw) """* cos(pitch)"""
+________________________________________________________________________
+
+Z
+| 	   .
+| 	 .
+|      . |
+| h=1.	 | opposide -> sin(roll)
+|  .	 |
+|.(roll)|_______ Y
+X   adjacant -> cos(roll)

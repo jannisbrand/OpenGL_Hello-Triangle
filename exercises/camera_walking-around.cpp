@@ -15,29 +15,76 @@ glm::vec3 worldOrigin = glm::vec3(0.0f, 0.0f, 0.0f);
 glm::vec3 cameraPosition = glm::vec3(0.0f, 0.0f, 3.0f);
 glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 glm::vec3 arbutiaryUp = glm::vec3(0.0f, 1.0f, 0.0f);
+
+glm::vec3 cameraDirection;
+float cameraYaw = -90.0f;
+float cameraPitch = 0.0f;
+float cameraRoll = 0.0f;
+
 float cameraSpeed = 0.002;
 
 float currentFrame = 0.0f;
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
+double lastMousePosX = 400.0f;
+double lastMousePosY = 300.0f;
+float sensitivity = 0.1f;
+bool firstMouseMovement = true;
+
+void mouse_callback(GLFWwindow *window, double xPos, double yPos)
+{
+    if (firstMouseMovement)
+    {
+        lastMousePosX = xPos;
+        lastMousePosY = yPos;
+        firstMouseMovement = false;
+    }
+    float xPosDelta = (xPos - lastMousePosX);
+    float yPosDelta = (lastMousePosY - yPos);
+    lastMousePosX = xPos;
+    lastMousePosY = yPos;
+
+    xPosDelta *= sensitivity;
+    yPosDelta *= sensitivity;
+    cameraYaw += xPosDelta;
+    cameraPitch += yPosDelta;
+
+    // Contraints to prevent flipping
+    if (cameraPitch > 89.0f)
+    {
+        cameraPitch = 89.0f;
+    }
+    else if (cameraPitch < -89.0f)
+    {
+        cameraPitch = -89.0f;
+    }    
+
+    // Camera direction (Without roll);
+    glm::vec3 cameraDirection;
+    cameraDirection.x = cos(glm::radians(cameraYaw)) * cos(glm::radians(cameraPitch));
+    cameraDirection.y = sin(glm::radians(cameraPitch));
+    cameraDirection.z = sin(glm::radians(cameraYaw)) * cos(glm::radians(cameraPitch));
+    cameraFront = glm::normalize(cameraDirection);  // Sets the front facing vector to the new calculated one!
+}
+
 void processInput(GLFWwindow *window)
 {
     cameraSpeed = 0.5 * deltaTime;
 
-    if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
     {
         cameraPosition += cameraSpeed * cameraFront;
     }
-    if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
     {
         cameraPosition -= cameraSpeed * cameraFront;
     }
-    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
+    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
     {
         cameraPosition += glm::normalize(glm::cross(cameraFront, arbutiaryUp)) * cameraSpeed;
     }
-    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
+    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
     {
         cameraPosition -= glm::normalize(glm::cross(cameraFront, arbutiaryUp)) * cameraSpeed;
     }
@@ -45,11 +92,14 @@ void processInput(GLFWwindow *window)
     {
         cameraPosition -= cameraSpeed * arbutiaryUp;
     }
-    if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+    if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
     {
         cameraPosition += cameraSpeed * arbutiaryUp;
     }
-    std::cout << "\033[2J" << glm::to_string(cameraPosition) << std::endl;
+    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+    {
+        glfwSetWindowShouldClose(window, 1);
+    }
 }
 
 int main()
@@ -214,10 +264,12 @@ int main()
 
     // view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));  // Translates the "camera" back with 3 / Translates the world space forward with 3 :)
     view = glm::lookAt(cameraPosition, worldOrigin, arbutiaryUp);   // Initial camera position
-
     projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);  // Creates a frustum
+
     // Render parameter
     glEnable(GL_DEPTH_TEST);    // Enables OpenGL to consider the w coordinate to perfrom depth testing (z-buffer)
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    glfwSetCursorPosCallback(window, mouse_callback);
 
     // Render loop
     while (!glfwWindowShouldClose(window))
@@ -233,8 +285,16 @@ int main()
 
         processInput(window);
 
-        view = glm::lookAt(cameraPosition, cameraPosition + cameraFront, arbutiaryUp);
-        
+        // Create a look at matrix
+        view = glm::lookAt(cameraPosition, cameraPosition + cameraFront, arbutiaryUp);  // With the additon of the normalized camera front vec3 to the camera position vec3 its possible to let the camera follow the carrot ;)
+
+        // ### Performance monitoring ###
+        std::cout << "\033[2J\033[H" << "CAM: " << glm::to_string(cameraPosition) << std::endl <<
+            "CURSOR: " << glm::to_string(cameraFront) << std::endl <<
+            "DELTA T: " << deltaTime << std::endl <<
+            "FPS: " << (1 / deltaTime);
+        // ### Performance monitoring ###
+
         // ### ONE CUBE ###
         // glBindVertexArray(vao);
         
@@ -269,6 +329,7 @@ int main()
             glDrawArrays(GL_TRIANGLES, 0, 36);
         }
         // ### MORE CUBES ###
+
 
         glfwPollEvents();
         glfwSwapBuffers(window);
