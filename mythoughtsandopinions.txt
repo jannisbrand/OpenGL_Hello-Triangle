@@ -28,9 +28,9 @@ Fragment Shader = Verabeitet die Farben die bestimmter Pixel haben soll.
     Das Shader Programm aktivieren.
     Die Shader Objekte optional löschen.
     Dem VBO die Positionen, an denen die Vertex Daten in dem Datenbereich liegen, angeben. 
+    Das VAO entbinden.
     Das VBO entbinden.
     Das EBO optional entbinden.
-    Das VAO entbinden.
 
 ## Das Zeichnen eines Dreiecks ##
     Das VAO, dass bei dem konfigurieren der Dreiecks-Daten gebunden wurde, an den OpenGL-Kontext binden.
