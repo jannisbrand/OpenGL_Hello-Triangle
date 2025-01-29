@@ -118,5 +118,10 @@ public:
     {
         glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, glm::value_ptr(matrix));
     }
+
+    void setVec3(const std::string &name, glm::vec3 vec3) const
+    {
+        glUniform3fv(glGetUniformLocation(ID, name.c_str()), 1, &vec3[0]);  //Pointer to the first item of the vector
+    }
 };
 #endif
